@@ -1,12 +1,14 @@
+
+/**
+ * Created by Charles on 6/2/2015.
+ */
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.StringTokenizer;
 import java.io.*;
 import javax.swing.JOptionPane;
 import java.text.NumberFormat;
-/**
- * Created by Charles on 6/2/2015.
- */
 
 public class BankDriver {
     //********************************************************************
@@ -25,7 +27,6 @@ public class BankDriver {
         //-----------------------------------------------------------------
 
         private NumberFormat fmt = NumberFormat.getCurrencyInstance();
-        final double FEE = 1.50;
         final int MAX = 30;
 
         Customer [] custsArray = new Customer[MAX];

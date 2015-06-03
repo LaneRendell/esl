@@ -1,8 +1,9 @@
-import javax.swing.*;
-
 /**
  * Created by Charles on 6/2/2015.
  */
+
+import javax.swing.*;
+
 public class Customer {
 
     private String name;
@@ -69,7 +70,7 @@ public class Customer {
     {
         if(amount < 0)
         {
-            // Display Error
+            // Display Error,
             JOptionPane.showMessageDialog(null, "Error: Amount cannot be negative.");
         } else if (amount > this.balance) {
 
