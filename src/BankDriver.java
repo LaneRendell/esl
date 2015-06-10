@@ -26,31 +26,74 @@ public class BankDriver {
     private NumberFormat fmt = NumberFormat.getCurrencyInstance();
 
     /**
-     * Fee with
+     * Fee that comes with withdrawal
      */
     final double FEE = 1.50;
+
+    /**
+     * Max number in customer array
+     */
     final int MAX = 30;
+
+    /**
+     * String used for JOption Pane Title
+     */
     final String BANK = "Bank System";
 
+    /**
+     * Array of customer objects.
+     */
     Customer[] custArray = new Customer[MAX];
+
+    /**
+     * Array that is used to loop over arrays.
+     */
     int count = 0;
+
+    /**
+     * Used to return a found index.
+     */
     int index;
 
+    /**
+     * Tokenizer is used when reading file.
+     */
     StringTokenizer tokenizer;
+
+    /**
+     * Keeps track of line in file.
+     */
     String line;
+
+    /**
+     * Name of text file with records in it.
+     */
     String file = "customer.txt";
 
+
+    // variables that correspond to private data fields
     String name;
     long custNumber;
     double balance;
     String phone;
 
+    /**
+     * Boolean used to keep program running. Change this to exit.
+     */
     boolean quit = false;
+
+    /**
+     * Used to make menu choices.
+     */
     int choice;
 
     String OutPutText = "";
     String xnam;
 
+    /**
+     * The main driver of the program. Does manipulations on an array of Customer
+     * objects.
+     */
     public void runBankTest(){
         System.out.println("Welcome to the Bank");
 
@@ -114,7 +157,7 @@ public class BankDriver {
 
                 switch(choice){
 
-                    case 1:
+                    case 1: // Deposit
 
                         xnam = JOptionPane.showInputDialog(null, "Enter the Customer's Name: ", BANK,
                                 JOptionPane.QUESTION_MESSAGE);
@@ -150,13 +193,14 @@ public class BankDriver {
 
                         break;
 
-                    case 2:
+                    case 2: // Withdraw
 
                         xnam = JOptionPane.showInputDialog(null, "Enter the Customer's Name: ", BANK,
                                 JOptionPane.QUESTION_MESSAGE);
 
                         index = custArray[0].findIndex(custArray, xnam, count);
 
+                        // If index was found
                         if(index != -1){
                             System.out.println();
 
@@ -168,6 +212,7 @@ public class BankDriver {
 
                             double result = custArray[index].withdraw(withdrawAmt, FEE);
 
+                            // Build a string to show the user the withdrawal information.
                             String successfulWithdraw = (xnam + " balance after withdrawal: " +
                                     fmt.format(custArray[index].getBalance()) + "\n"
                                     + xnam + " balance after interest is added: " +
@@ -178,6 +223,7 @@ public class BankDriver {
                                 JOptionPane.showMessageDialog(null, successfulWithdraw, BANK, JOptionPane.INFORMATION_MESSAGE);
                             }
                         } else {
+                            // Record wasn't found, alert the user.
                             System.out.println();
                             System.out.println(xnam + " was not found");
                             JOptionPane.showMessageDialog(null, xnam + " was not found",
@@ -186,7 +232,7 @@ public class BankDriver {
 
                         break;
 
-                    case 3:
+                    case 3: // Add an account
 
                         if(count < custArray.length){
 
@@ -218,9 +264,10 @@ public class BankDriver {
 
                         break;
 
-                    case 4:
+                    case 4: // Display all records
                         OutPutText = "";
 
+                        // loop through Customer array and display records
                         for(int scan = 0; scan < count; scan++){
                             OutPutText = (OutPutText + custArray[scan].getCustomerName() + " " +
                                     custArray[scan].getCustomerNumber() + " " +
@@ -232,7 +279,7 @@ public class BankDriver {
 
                         break;
 
-                    case 5:
+                    case 5: // Delete customer
 
                         xnam = JOptionPane.showInputDialog(null, "Enter the Customer's Name: ", BANK,
                                 JOptionPane.QUESTION_MESSAGE);
@@ -255,7 +302,7 @@ public class BankDriver {
 
                         break;
 
-                    default:
+                    default:    // quit
                         quit = true;
                 }
             }

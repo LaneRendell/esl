@@ -1,18 +1,62 @@
+/******************************************************************************
+ * Program Name:            Customer.java
+ * Your Name(s):            Charles Nicholson, Osama ..., Nazar ...
+ * Professor's Name:        Christine Forde
+ *
+ *
+ *
+ * Formulas:
+ */
+
+
 import javax.swing.JOptionPane;
 
-
+/**
+ *
+ */
 public class Customer {
 
-    private final double INTEREST = 4.5;
+    /**
+     *  Amount of interest used for calculations.
+     */
+    final double INTEREST = 4.5;
+
+    /**
+     *  The name of the customer.
+     */
     private String name;
+
+    /**
+     *  The customer's id number.
+     */
     private long idNumber;
+
+    /**
+     *  The customer's balance in their account.
+     */
     private double balance;
+
+    /**
+     *  The customer's phone number. No calculations are done, so we use a
+     *  string.
+     *
+     */
     private String phoneNumber;
 
+    /**
+     * Default constructor. Creates object with empty data-fields.
+     */
     public Customer(){
 
     }
 
+    /**
+     * Non-default constructor. Let's us instantiate an object with specified values.
+     * @param name          String Full name of customer, no spaces.
+     * @param idNumber      long The customer's id number.
+     * @param balance       double The balance the customer has in their account.
+     * @param phoneNumber   String The customer's phone number.
+     */
     public Customer(String name, long idNumber, double balance, String phoneNumber){
         this.name = name;
         this.idNumber = idNumber;
@@ -20,28 +64,69 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * Returns the customer's name.
+     *
+     * @return String The customer's name.
+     */
     public String getCustomerName() {
-        return name;
+        return this.name;
     }
+
+    /**
+     * Sets the customer's name.
+     * @param name String The customer's name.
+     */
     public void setName(String name) {
         this.name = name;
     }
+
+    /**
+     * Returns the customer's id Number.
+     *
+     * @return long The customer's id number.
+     */
     public long getCustomerNumber() {
-        return idNumber;
+        return this.idNumber;
     }
+
+    /**
+     * Sets the customer's id number.
+     * @param idNumber long Customer's id number/
+     */
     public void setID(long idNumber) {
         this.idNumber = idNumber;
     }
+
+    /**
+     * Returns the balance.
+     *
+     * @return double The balance in the customer's account.
+     */
     public double getBalance() {
-        return balance;
+        return this.balance;
     }
+
+    /**
+     *
+     * @param balance
+     */
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getPhoneNumber() {
-        return phoneNumber;
+        return this.phoneNumber;
     }
 
+    /**
+     *
+     * @param phoneNumber
+     */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
