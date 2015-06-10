@@ -1,385 +1,296 @@
-
-/**
- * Created by Charles on 6/2/2015.
+/******************************************************************************
+ * Program Name: BankDriver.java
+ *
+ *
+ *
+ *
+ *
  */
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.StringTokenizer;
-import java.io.*;
-import javax.swing.JOptionPane;
 import java.text.NumberFormat;
+import java.util.StringTokenizer;
+import javax.swing.JOptionPane;
 
+/**
+ *
+ */
 public class BankDriver {
-    //********************************************************************
-//  BankTestDriver.java       Christine Forde
-//  Driver to exercise the use of multiple Customer objects.
-//********************************************************************
 
+    /**
+     * Displays numbers in currency format.
+     */
+    private NumberFormat fmt = NumberFormat.getCurrencyInstance();
 
-        //----------------------------------------------------------------------
-        // Reads data from a Customer input file (customer.txt). Put the records
-        // in an array. Display the unsorted records to the user. Present a menu
-        // of choices to the user:1) deposit sum, 2) withdraw amount,3) create a
-        // new customer, 4) view all customers, 5) delete a customer 9) Quit
-        // At end of file, sort the array in alphabetical order by name and
-        // display all customer's accounts,
-        //-----------------------------------------------------------------
+    /**
+     * Fee with
+     */
+    final double FEE = 1.50;
+    final int MAX = 30;
+    final String BANK = "Bank System";
 
-        private NumberFormat fmt = NumberFormat.getCurrencyInstance();
-        final int MAX = 30;
+    Customer[] custArray = new Customer[MAX];
+    int count = 0;
+    int index;
 
-        Customer [] custsArray = new Customer[MAX];
-        int count = 0;  //keeps track of the number of objects placed in
-        // the custArray array
+    StringTokenizer tokenizer;
+    String line;
+    String file = "customer.txt";
 
-        int index;      // points to the current object in the array that
-        // is being accessed
+    String name;
+    long custNumber;
+    double balance;
+    String phone;
 
-        StringTokenizer tokenizer;
-        String line;
-        String file = "customer.txt";
+    boolean quit = false;
+    int choice;
 
-        String name;
-        String custNumber;
-        double balance;
-        long phone;
+    String OutPutText = "";
+    String xnam;
 
+    public void runBankTest(){
+        System.out.println("Welcome to the Bank");
 
-        boolean quit = false;
-        int choice;
+        try{
+            FileReader fr = new FileReader(file);
+            BufferedReader inFile = new BufferedReader(fr);
 
-        String OutPutText = "";
-        String xnam;
+            line = inFile.readLine();
 
+            while(line != null && count < MAX){
+                tokenizer = new StringTokenizer(line);
 
-
-        /**
-         *The runBankTest method runs the BankTest system.
-         *
-         * @param args command line arguments - ignored
-         * It reads the input file and store the records in custsArray
-         * The method contains a loop that prompts the users with a
-         * JOptionPane.showInput dialog window for choices.
-         */
-//--------------------------------------------------------------------
-
-        public void runBankTest()
-        {
-            System.out.println("Welcome to the ES&L Bank");
-            System.out.println(System.getProperty("user.dir"));
-            try
-            {
-                FileReader fr = new FileReader (file);
-                BufferedReader inFile = new BufferedReader (fr);
+                name = tokenizer.nextToken();
+                try{
+                    custNumber = Long.parseLong(tokenizer.nextToken());
+                    balance = Double.parseDouble(tokenizer.nextToken());
+                    phone = tokenizer.nextToken();
+                    custArray[count++] = new Customer(name, custNumber, balance, phone);
+                }
+                catch(NumberFormatException exception){
+                    System.out.println("Error in input. Line ignored: ");
+                    System.out.println(line);
+                }
 
                 line = inFile.readLine();
+            }
 
-                while (line != null && count < MAX)
-                {
-                    tokenizer = new StringTokenizer (line);
-                    name       = tokenizer.nextToken();
+            inFile.close();
 
+            System.out.println("\t\tUnsorted " + file + " records");
+            System.out.println();
 
-                    try
-                    {
-                        custNumber = tokenizer.nextToken();
+            for(int scan = 0; scan < count; scan++){
+                System.out.println(custArray[scan]);
+            }
 
-                        balance    = Double.parseDouble(tokenizer.nextToken());
+            // Run program while boolean is set to false
+            while(!quit){
 
-                        phone      = Long.parseLong(tokenizer.nextToken());
+                String strChoice = JOptionPane.showInputDialog(null, "Please select an option: \n"
+                        + "\t1. Deposit sum to account\n"
+                        + "\t2. Withdraw sum from the account\n"
+                        + "\t3. Create an account\n"
+                        + "\t4. View all accounts\n"
+                        + "\t5. Delete a customer's account\n"
+                        + "\t9. Quit Processing", BANK, JOptionPane.QUESTION_MESSAGE);
 
-                        custsArray [count++] = new Customer(name, custNumber,
-                                balance, phone);
-
-
-
-                    }// end inner try block
-
-
-
-                    catch (NumberFormatException exception)
-                    {
-                        System.out.println( "Error in input. Line ignored: ");
-                        System.out.println (line);
-
-                    } // end catch block
-
-                    line = inFile.readLine(); // read another  record
-
-                } //end while block
-
-                inFile.close();
-
-                System.out.println(" \t\tUnsorted customer.txt records");
-                System.out.println("");
-
-                for (int scan = 0; scan < count; scan++)
-                    System.out.println (custsArray[scan]);
-
-//--------------------------------------------------------------
-// Get choices from the user. Loop until the users enteres a 9
-
-
-                while (!quit)
-                {
-                    String strChoice =
-                            JOptionPane.showInputDialog(null,"Please select an option: \n"
-                                    + "\t1. Deposit sum to account\n"
-                                    + "\t2. Withdraw sum from account\n"
-                                    + "\t3. Create account\n"
-                                    + "\t4. View all accounts\n"
-                                    + "\t5. Delete an account\n"
-                                    + "\t9. Quit", "ES&L Bank", JOptionPane.QUESTION_MESSAGE);
-
+                try{
                     choice = Integer.parseInt(strChoice);
-//-----------------------------------------------------------------------
-                    switch (choice)
-                    {
-                        case 1://deposit
-                            xnam  =
-                                    JOptionPane.showInputDialog
-                                            (null,"Enter the Customer's Name: ",
-                                                    "ES&L Bank System",JOptionPane.QUESTION_MESSAGE);
+                }
+                catch(NumberFormatException exception){
+                    JOptionPane.showMessageDialog(null, "Error. Enter a valid option. ", BANK,
+                            JOptionPane.INFORMATION_MESSAGE);
+                    continue;
+                }
+                catch(Exception exception){
+                    JOptionPane.showMessageDialog(null, "Error. Enter a valid option. ", BANK,
+                            JOptionPane.INFORMATION_MESSAGE);
+                    continue;
+                }
 
-                            index = custsArray[0].findIndex(custsArray, xnam, count);
+                switch(choice){
 
-                            if (index != -1)
-                            {
-                                System.out.println("");
+                    case 1:
 
-                                String strDepositAmt =
-                                        JOptionPane.showInputDialog
-                                                (null,"Enter the deposit, e.g., 10000.00: ",
-                                                        "ES&L Bank System",JOptionPane.QUESTION_MESSAGE);
+                        xnam = JOptionPane.showInputDialog(null, "Enter the Customer's Name: ", BANK,
+                                JOptionPane.QUESTION_MESSAGE);
 
-                                double depositAmt = Double.parseDouble(strDepositAmt);
+                        index = custArray[0].findIndex(custArray, xnam, count);
 
-                                custsArray[index].deposit(depositAmt);
+                        if(index != -1){
+                            System.out.println();
 
-                                JOptionPane.showMessageDialog
-                                        (null, xnam + " balance after deposit: "        +
-                                                        fmt.format(custsArray[index].getBalance() )
-                                                        + "\n"  +
-                                                        xnam + " balance after interest is added: " +
-                                                        fmt.format(custsArray[index].addInterest() ),
-                                                "ES&L Bank System",
-                                                JOptionPane.INFORMATION_MESSAGE);
+                            String strDepositAmt = JOptionPane.showInputDialog(null,
+                                    "Enter the deposit, e.g., 10000.00: ",
+                                    BANK, JOptionPane.QUESTION_MESSAGE);
 
+                            double depositAmt = Double.parseDouble(strDepositAmt);
 
-                            } // end if stmt
+                            double result = custArray[index].deposit(depositAmt);
 
-                            else
-                            {
-                                System.out.println("");
-                                System.out.println( xnam + " was not found");
-                            }  //end else stmt
+                            if(result != -1){
 
-                            break; // end choice equals 1
-
-
-//---------------------------------------------------------------
-                        case 2:   //withdraw
-
-                            //viewCustomers();
-                            xnam  =
-                                    JOptionPane.showInputDialog(null,"Enter the Customer's Name: ",
-                                            "ES&L Bank System",JOptionPane.QUESTION_MESSAGE);
-
-                            index = custsArray[0].findIndex(custsArray, xnam, count);
-
-                            if (index != -1)
-                            {
-                                System.out.println("");
-
-                                String strWithdrawAmt =
-                                        JOptionPane.showInputDialog
-                                                (null,"Enter the withdrawal, e.g., 10.00: ",
-                                                        "ES&L Bank System",JOptionPane.QUESTION_MESSAGE);
-
-                                double withdrawAmt = Double.parseDouble(strWithdrawAmt);
-
-                                JOptionPane.showMessageDialog
-                                        (null, xnam + " balance after withdrawal: "       +
-                                                        fmt.format(custsArray[index].withdraw(withdrawAmt) )
-                                                        + "\n"  +
-
-                                                        xnam + " balance after interest is added: " +
-                                                        fmt.format(custsArray[index].addInterest() ),
-                                                "ES&L Bank System",
-                                                JOptionPane.INFORMATION_MESSAGE);
-
-                            } // end if stmt
-
-                            else
-                            {
-                                System.out.println("");
-                                System.out.println( xnam + " was not found");
-                            }  //end else stmt
-
-                            break; //end choice equals 2
-
-//-------------------------------------------------------------
-
-                        case 3:    //create an account
-
-                            if (count < custsArray.length)
-                            {
-                                name = JOptionPane.showInputDialog
-                                        (null,"Enter Customer's name: ",
-                                                "ES&L Bank System",JOptionPane.QUESTION_MESSAGE);
-
-                                String strCustNum = JOptionPane.showInputDialog
-                                        (null,"Enter Customer's Number, e.g., 11111: ",
-                                                "ES&L Bank System",JOptionPane.QUESTION_MESSAGE);
-
-                                custNumber = (strCustNum);
-
-                                String strBalance = JOptionPane.showInputDialog
-                                        (null,"Enter Customer's Balance, e.g., 1000.00: ",
-                                                "ES&L Bank System",JOptionPane.QUESTION_MESSAGE);
-
-                                balance = Double.parseDouble(strBalance);
-
-                                phone = Long.parseLong(JOptionPane.showInputDialog
-                                        (null,"Enter Customer's phone number: ",
-                                                "ES&L Bank System",JOptionPane.QUESTION_MESSAGE));
-
-
-                                //--------------------------------------------------------------------
-                                custsArray[count]= new Customer();
-                                custsArray[count].addNewCustomer(custsArray, count,
-                                        name, custNumber, balance,
-                                        phone);
-                                count++;
+                                JOptionPane.showMessageDialog(null, xnam + " balance after deposit: " +
+                                                fmt.format(custArray[index].getBalance()) + "\n"
+                                                + xnam + " balance after interest is added: " +
+                                                fmt.format(custArray[index].addInterest()),
+                                        BANK, JOptionPane.INFORMATION_MESSAGE);
                             }
+                        } else {
+                            // Record wasn't found alert the user.
+                            System.out.println();
+                            System.out.println(xnam + " was not found");
+                            JOptionPane.showMessageDialog(null, xnam + " was not found",
+                                    BANK, JOptionPane.INFORMATION_MESSAGE);
+                        }
 
-                            else
-                                JOptionPane.showMessageDialog(null,
-                                        "The array is full. No new record added ",
-                                        "ES&L Bank System",
-                                        JOptionPane.INFORMATION_MESSAGE);
+                        break;
 
-                            break; //end choice equals 3
+                    case 2:
 
+                        xnam = JOptionPane.showInputDialog(null, "Enter the Customer's Name: ", BANK,
+                                JOptionPane.QUESTION_MESSAGE);
 
-//------------------------------------------------------------------
-                        case 4:   //view all accounts
+                        index = custArray[0].findIndex(custArray, xnam, count);
 
-                            //sort for output by names
-                            custsArray[0].nameSort(custsArray,count);
+                        if(index != -1){
+                            System.out.println();
 
-                            OutPutText = "";
+                            String strWithdrawAmt = JOptionPane.showInputDialog(null,
+                                    "Enter the withdrawal, e.g., 10.00: ",
+                                    BANK, JOptionPane.QUESTION_MESSAGE);
 
-                            for (int scan = 0; scan < count; scan++)
-                            {
-                                OutPutText =
-                                        (OutPutText + custsArray[scan].getName() + " " +
-                                                custsArray[scan].getIdNumber() + " "   +
-                                                fmt.format(custsArray[scan].getBalance()) + " "  +
-                                                custsArray[scan].getPhoneNumber()+ "\n");
+                            double withdrawAmt = Double.parseDouble(strWithdrawAmt);
 
+                            double result = custArray[index].withdraw(withdrawAmt, FEE);
+
+                            String successfulWithdraw = (xnam + " balance after withdrawal: " +
+                                    fmt.format(custArray[index].getBalance()) + "\n"
+                                    + xnam + " balance after interest is added: " +
+                                    fmt.format(custArray[index].addInterest()));
+
+                            // If no errors thrown by withdraw method
+                            if(result != -1){
+                                JOptionPane.showMessageDialog(null, successfulWithdraw, BANK, JOptionPane.INFORMATION_MESSAGE);
                             }
+                        } else {
+                            System.out.println();
+                            System.out.println(xnam + " was not found");
+                            JOptionPane.showMessageDialog(null, xnam + " was not found",
+                                    BANK, JOptionPane.INFORMATION_MESSAGE);
+                        }
 
-                            JOptionPane.showMessageDialog(null,OutPutText,
-                                    "ES&L Bank System",
-                                    JOptionPane.INFORMATION_MESSAGE);
+                        break;
 
-                            break;  // end choice 4
-                        //-----------------------------------------------------------------
-                        case 5: //Delete a customer
+                    case 3:
 
-                            xnam  =
-                                    JOptionPane.showInputDialog(null,"Enter the Customer's Name: ",
-                                            "ES&L Bank System",JOptionPane.QUESTION_MESSAGE);
+                        if(count < custArray.length){
 
-                            index = custsArray[0].findIndex(custsArray, xnam, count);
+                            name = JOptionPane.showInputDialog(null, "Enter the Customer's Name: ", BANK,
+                                    JOptionPane.QUESTION_MESSAGE);
 
-                            if (index != -1)
-                            {
-                                if (count >= 1 && count <= custsArray.length)
-                                {
-                                    custsArray[index] = custsArray[count-1]; //pack the hole
-                                    count--; //decrement count now that we have one less
-                                    //element
+                            String strCustNum = JOptionPane.showInputDialog(null,
+                                    "Enter Customer's Number, e.g., 11111: ",
+                                    BANK, JOptionPane.QUESTION_MESSAGE);
 
-                                    JOptionPane.showMessageDialog
-                                            (null, xnam + " is deleted. ",
-                                                    "ES&L Bank System",
-                                                    JOptionPane.INFORMATION_MESSAGE);
-                                } // end nested if statement
+                            custNumber = Long.parseLong(strCustNum);
 
-                            } // end if stmt
+                            String strBalance = JOptionPane.showInputDialog(null,
+                                    "Enter Customer's Balance, e.g., 1000.00: ",
+                                    BANK, JOptionPane.QUESTION_MESSAGE);
 
-                            else
-                            {
-                                JOptionPane.showMessageDialog
-                                        (null, xnam + " was not found ",
-                                                "ES&L Bank System",
-                                                JOptionPane.INFORMATION_MESSAGE);
+                            balance = Double.parseDouble(strBalance);
 
-                            }  //end else stmt
+                            phone = JOptionPane.showInputDialog(null, "Enter Customer's phone number: ",
+                                    BANK, JOptionPane.QUESTION_MESSAGE);
 
-                            break; // end choice 5
+                            custArray[count] = new Customer();
+                            custArray[count].addNewCustomer(custArray, count, name, custNumber, balance, phone);
+                            count++;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "The array if full. No new record added ",
+                                    BANK, JOptionPane.INFORMATION_MESSAGE);
+                        }
 
-                        //-----------------------------------------------------------------
+                        break;
 
-                        default: quit = true;  //set done to true to exit the system
+                    case 4:
+                        OutPutText = "";
 
-//--------------------------------------------------------------------
+                        for(int scan = 0; scan < count; scan++){
+                            OutPutText = (OutPutText + custArray[scan].getCustomerName() + " " +
+                                    custArray[scan].getCustomerNumber() + " " +
+                                    fmt.format(custArray[scan].getBalance()) + " " +
+                                    custArray[scan].getPhoneNumber() + "\n");
+                        }
 
-                    }// end switch statement
+                        JOptionPane.showMessageDialog(null, OutPutText,	BANK, JOptionPane.INFORMATION_MESSAGE);
 
-                }// end while loop  for menu
+                        break;
 
+                    case 5:
 
+                        xnam = JOptionPane.showInputDialog(null, "Enter the Customer's Name: ", BANK,
+                                JOptionPane.QUESTION_MESSAGE);
 
+                        index = custArray[0].findIndex(custArray, xnam, count);
 
+                        if(index != -1){
+                            if(count >= 1 && count <= custArray.length){
 
-//----------------------------------------------------------------------
+                                custArray[0].DeleteCustomer(custArray, index, count);
+                                count--;
 
-                custsArray[0].nameSort(custsArray,count);//sort for output by names
+                                JOptionPane.showMessageDialog(null, xnam + " is deleted. ",
+                                        BANK, JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, xnam + " was not found ",
+                                    BANK, JOptionPane.INFORMATION_MESSAGE);
+                        }
 
-                System.out.println("");
-                System.out.println(" \t\tSorted updated customer.txt records");
+                        break;
 
-                for (int scan = 0; scan < count; scan++)
-                    System.out.println (custsArray[scan]);
-
-
-            }//end try block
-
-//----------------------------------------------------------------
-
-            catch (FileNotFoundException exception)
-            {
-                System.out.println ("The file " + file + " was not found");
+                    default:
+                        quit = true;
+                }
             }
 
+            // call sorting method that alphabetizes records.
+            custArray[0].nameSort(custArray, count);
 
+            OutPutText = "\t\tSorted updated " + file + " records\n";
 
-            catch (IOException exception)
-            {
-                System.out.println (exception);
+            for(int scan = 0; scan < count; scan++){
+                OutPutText = (OutPutText + custArray[scan].getCustomerName() + " " +
+                        custArray[scan].getCustomerNumber() + " " +
+                        fmt.format(custArray[scan].getBalance()) + " " +
+                        custArray[scan].getPhoneNumber() + "\n");
             }
 
+            JOptionPane.showMessageDialog(null, OutPutText,	BANK, JOptionPane.INFORMATION_MESSAGE);
 
-//----------------------------------------------------------
+        } catch(FileNotFoundException exception) {
+            System.err.println("The file " + file + " was not found.");
+        } catch(IOException exception) {
+            System.err.println(exception);
+        }
+    }
 
+    /**
+     * Main method. Calls runBankTest() where program is carried out.
+     *
+     * @param args parameter is ignored.
+     * @return void.
+     */
+    public static void main(String[] args) {
 
-
-        } //end method runBankTest()
-
-//------------------------------------------------------------
-
-
-        public static void main (String[] args)
-        {
-            BankDriver bankTest = new BankDriver();
-            bankTest.runBankTest();
-            System.exit(0);
-        } // end main method
-
-//---------------------------------------------------------------
-
-    }// end class BankTestDriver
+        BankDriver bankTest = new BankDriver();
+        bankTest.runBankTest();
+        System.exit(0);
+    }
+}
