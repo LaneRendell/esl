@@ -107,7 +107,7 @@ public class BankDriver {
                 tokenizer = new StringTokenizer(line);
 
                 name = tokenizer.nextToken();
-                try{
+                try {
                     custNumber = Long.parseLong(tokenizer.nextToken());
                     balance = Double.parseDouble(tokenizer.nextToken());
                     phone = tokenizer.nextToken();
@@ -121,7 +121,7 @@ public class BankDriver {
                 line = inFile.readLine();
             }
 
-            inFile.close();
+            inFile.close(); // close the file
 
             System.out.println("\t\tUnsorted " + file + " records");
             System.out.println();

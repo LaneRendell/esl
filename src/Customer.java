@@ -70,6 +70,7 @@ public class Customer {
      * @return String The customer's name.
      */
     public String getCustomerName() {
+
         return this.name;
     }
 
@@ -87,6 +88,7 @@ public class Customer {
      * @return long The customer's id number.
      */
     public long getCustomerNumber() {
+
         return this.idNumber;
     }
 
@@ -95,6 +97,7 @@ public class Customer {
      * @param idNumber long Customer's id number/
      */
     public void setID(long idNumber) {
+
         this.idNumber = idNumber;
     }
 
@@ -104,30 +107,36 @@ public class Customer {
      * @return double The balance in the customer's account.
      */
     public double getBalance() {
+
         return this.balance;
     }
 
     /**
-     *
-     * @param balance
+     * Sets the customer's account balance.
+     * @param balance double Set customer's balance.
      */
     public void setBalance(double balance) {
+
         this.balance = balance;
     }
 
     /**
+     * Returns the customer's phone number.
      *
-     * @return
+     * @return String The customer's phone number.
      */
     public String getPhoneNumber() {
+
         return this.phoneNumber;
     }
 
     /**
+     * Sets the customer's phone number.
      *
-     * @param phoneNumber
+     * @param phoneNumber String Phone number to set.
      */
     public void setPhoneNumber(String phoneNumber) {
+
         this.phoneNumber = phoneNumber;
     }
 
@@ -148,10 +157,13 @@ public class Customer {
 
             return -1;
         } else if((this.balance - (amount + fee)) < 0) {
+            // Funds are negative
+
             System.err.println("Error: Insufficient funds");
             System.err.println("Customer: " + this.name);
             System.err.println("Requested: " + amount);
             System.err.println("Available: " + this.balance);
+
             JOptionPane.showMessageDialog(null, "Error: Insufficient funds\n"
                     + "Customer: " + this.name + "\nRequested: " + amount + "\nAvailable: " + this.balance);
 
