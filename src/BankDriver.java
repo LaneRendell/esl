@@ -1,11 +1,16 @@
 /******************************************************************************
- * Program Name: BankDriver.java
+ * Program Name:            Customer.java
+ * Your Name(s):            Charles Nicholson, Osama ..., Nazar ...
+ * Professor's Name:        Christine Forde
  *
  *
  *
- *
- *
+ * Formulas:
+ * Balance After Deposit: Amount  + (Amount * Interest Rate)
+ * Balance After Withdrawal: Balance – (Amount + 1.50 Transaction Fee) + (newBalance * Interest Rate)
+ * Interest Calculation:  newBalance * Interest Rate
  */
+
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -16,7 +21,9 @@ import java.util.StringTokenizer;
 import javax.swing.JOptionPane;
 
 /**
- *
+ *  The class that has the main method in it.
+ *  Creates an array of customer objects by reading a file.
+ *  Uses JOptionPane to create a menu.
  */
 public class BankDriver {
 
@@ -323,8 +330,8 @@ public class BankDriver {
 
         } catch(FileNotFoundException exception) {
             System.err.println("The file " + file + " was not found.");
-        } catch(IOException exception) {
-            System.err.println(exception);
+        } catch(IOException IOexception) {
+            System.err.println(IOexception);
         }
     }
 
@@ -332,7 +339,6 @@ public class BankDriver {
      * Main method. Calls runBankTest() where program is carried out.
      *
      * @param args parameter is ignored.
-     * @return void.
      */
     public static void main(String[] args) {
 

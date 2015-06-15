@@ -6,13 +6,17 @@
  *
  *
  * Formulas:
+ * Balance After Deposit: Amount  + (Amount * Interest Rate)
+ * Balance After Withdrawal: Balance – (Amount + 1.50 Transaction Fee) + (newBalance * Interest Rate)
+ * Interest Calculation:  newBalance * Interest Rate
  */
 
 
 import javax.swing.JOptionPane;
 
 /**
- *
+ * This class holds information about a customer.
+ * It does transactions with their balance.
  */
 public class Customer {
 
@@ -142,20 +146,22 @@ public class Customer {
 
     /**
      *
-     * @param amount
-     * @param fee
-     * @return
+     * @param amount double The amount you wish to withdraw
+     * @param fee double The amount charged per withdrawal.
+     * @return double Returns the balance in the account.
      */
     public double withdraw(double amount, double fee){
 
-        if((amount + fee) < 0){
+        if((amount + fee) < 0){ // If withdrawal amount + fee is negative
+
             System.err.println("Error: Withdraw amount is invalid.");
             System.err.println("Customer: " + this.name);
             System.err.println("Requested: " + amount);
             JOptionPane.showMessageDialog(null, "Error: Withdraw amount is invalid.\n"
                     + "Customer: " + this.name + "\nRequested: " + amount);
 
-            return -1;
+            return -1; // Return an error.
+
         } else if((this.balance - (amount + fee)) < 0) {
             // Funds are negative
 
@@ -167,28 +173,32 @@ public class Customer {
             JOptionPane.showMessageDialog(null, "Error: Insufficient funds\n"
                     + "Customer: " + this.name + "\nRequested: " + amount + "\nAvailable: " + this.balance);
 
-            return -1;
+            return -1;  // Return an error
         } else {
+            /* No error */
             this.balance = this.balance - (amount + fee);
             return this.balance;
         }
     }
 
     /**
+     * Deposits money into the account and returns the total before interest.
      *
-     * @param amount
-     * @return
+     * @param amount double The amount being deposited into the account.
+     * @return double Returns the balance in the account after deposit.
      */
     public double deposit(double amount){
 
-        if(amount < 0){
+        if(amount < 0)
+        { // cannot have negative amounts
+
             System.err.println("Error: Deposit amount is invalid.");
             System.err.println("Customer: " + this.name);
             System.err.println("Requested: " + amount);
             JOptionPane.showMessageDialog(null, "Error: Deposit amount is invalid.\n"
                     + "Customer: " + this.name + "\nRequested: " + amount);
 
-            return -1;
+            return -1;  // error
         } else {
             this.balance = this.balance + amount;
             return this.balance;
@@ -196,8 +206,10 @@ public class Customer {
     }
 
     /**
+     * Adds interest amount by using formula:
+     * New balance = (balance * interest rate) + balance
      *
-     * @return
+     * @return double The new balance.
      */
     public double addInterest(){
         this.balance = this.balance + (this.balance * INTEREST/100);
@@ -206,8 +218,8 @@ public class Customer {
 
     /**
      *
-     * @param custArray
-     * @param index
+     * @param custArray Customer[] An array of customer objects.
+     * @param index int
      * @param name
      * @param custNumber
      * @param balance
@@ -223,9 +235,9 @@ public class Customer {
 
     /**
      *
-     * @param custArray
-     * @param index
-     * @param count
+     * @param custArray Customer[] An array of customer objects.
+     * @param index int
+     * @param count int
      */
     public void DeleteCustomer(Customer[] custArray, int index, int count){
         custArray[index] = custArray[count - 1];
