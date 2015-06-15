@@ -1,9 +1,9 @@
 /******************************************************************************
  * Program Name:            Customer.java
- * Your Name(s):            Charles Nicholson, Osama ..., Nazar ...
+ * Your Name(s):            Charles Nicholson, Osama Alqahtani, and Nazar Al-Wattar
  * Professor's Name:        Christine Forde
  *
- *
+ * Classes: Customer
  *
  * Formulas:
  * Balance After Deposit: Amount  + (Amount * Interest Rate)
