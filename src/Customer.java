@@ -217,13 +217,15 @@ public class Customer {
     }
 
     /**
+     * Creates a new customer object and puts it in the customer array.
+     *
      *
      * @param custArray Customer[] An array of customer objects.
-     * @param index int
-     * @param name
-     * @param custNumber
-     * @param balance
-     * @param phone
+     * @param index int The place in the array where the customer object goes.
+     * @param name String The name of the customer.
+     * @param custNumber long The ID of the customer.
+     * @param balance double The starting balance in the customer's account.
+     * @param phone String The phone number of the customer.
      */
     public void addNewCustomer(Customer[] custArray, int index, String name,
                                long custNumber, double balance, String phone){
@@ -234,19 +236,22 @@ public class Customer {
     }
 
     /**
+     * Removes a customer from the customer array. The garbage collector gets it later.
      *
      * @param custArray Customer[] An array of customer objects.
-     * @param index int
-     * @param count int
+     * @param index int The position of the object to remove.
+     * @param count int The length of the array.
      */
     public void DeleteCustomer(Customer[] custArray, int index, int count){
         custArray[index] = custArray[count - 1];
     }
 
     /**
+     * Sorts the customer array alphabetically.
      *
-     * @param custArray
-     * @param count
+     *
+     * @param custArray The array of customer objects.
+     * @param count The amount of objects in the array.
      */
     public void nameSort(Customer[] custArray, int count){
         // use select sort
