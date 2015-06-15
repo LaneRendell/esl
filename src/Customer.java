@@ -156,7 +156,7 @@ public class Customer {
 
             System.err.println("Error: Withdraw amount is invalid.");
             System.err.println("Customer: " + this.name);
-            System.err.println("Requested: " + amount);
+            System.err.println("Requested: " + (amount + fee));
             JOptionPane.showMessageDialog(null, "Error: Withdraw amount is invalid.\n"
                     + "Customer: " + this.name + "\nRequested: " + amount);
 
@@ -167,11 +167,12 @@ public class Customer {
 
             System.err.println("Error: Insufficient funds");
             System.err.println("Customer: " + this.name);
-            System.err.println("Requested: " + amount);
+            System.err.println("Requested: " + (amount + fee));
             System.err.println("Available: " + this.balance);
 
             JOptionPane.showMessageDialog(null, "Error: Insufficient funds\n"
-                    + "Customer: " + this.name + "\nRequested: " + amount + "\nAvailable: " + this.balance);
+                    + "Customer: " + this.name + "\nRequested: " + (amount + fee) + "\nAvailable: " + this.balance);
+
 
             return -1;  // Return an error
         } else {

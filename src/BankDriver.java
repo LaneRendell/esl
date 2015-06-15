@@ -225,10 +225,8 @@ public class BankDriver {
                                     + xnam + " balance after interest is added: " +
                                     fmt.format(custArray[index].addInterest()));
 
-                            // If no errors thrown by withdraw method
-                            if(result != -1){
-                                JOptionPane.showMessageDialog(null, successfulWithdraw, BANK, JOptionPane.INFORMATION_MESSAGE);
-                            }
+                            JOptionPane.showMessageDialog(null, successfulWithdraw, BANK, JOptionPane.INFORMATION_MESSAGE);
+
                         } else {
                             // Record wasn't found, alert the user.
                             System.out.println();
@@ -273,6 +271,10 @@ public class BankDriver {
 
                     case 4: // Display all records
                         OutPutText = "";
+
+                        // Call nameSort() To alphabetize
+                        custArray[0].nameSort(custArray, count);
+
 
                         // loop through Customer array and display records
                         for(int scan = 0; scan < count; scan++){
