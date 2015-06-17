@@ -78,6 +78,7 @@ public class Customer {
         return this.name;
     }
 
+
     /**
      * Sets the customer's name.
      * @param name String The customer's name.
@@ -153,30 +154,16 @@ public class Customer {
     public double withdraw(double amount, double fee){
 
         if((amount + fee) < 0){ // If withdrawal amount + fee is negative
-
-            System.err.println("Error: Withdraw amount is invalid.");
-            System.err.println("Customer: " + this.name);
-            System.err.println("Requested: " + (amount + fee));
-            JOptionPane.showMessageDialog(null, "Error: Withdraw amount is invalid.\n"
-                    + "Customer: " + this.name + "\nRequested: " + amount);
-
             return -1; // Return an error.
 
         } else if((this.balance - (amount + fee)) < 0) {
-            // Funds are negative
+            // Funds are insufficent
 
-            System.err.println("Error: Insufficient funds");
-            System.err.println("Customer: " + this.name);
-            System.err.println("Requested: " + (amount + fee));
-            System.err.println("Available: " + this.balance);
+            return -2;  // Return an error
 
-            JOptionPane.showMessageDialog(null, "Error: Insufficient funds\n"
-                    + "Customer: " + this.name + "\nRequested: " + (amount + fee) + "\nAvailable: " + this.balance);
-
-
-            return -1;  // Return an error
         } else {
             /* No error */
+
             this.balance = this.balance - (amount + fee);
             return this.balance;
         }
@@ -191,17 +178,14 @@ public class Customer {
     public double deposit(double amount){
 
         if(amount < 0)
-        { // cannot have negative amounts
-
-            System.err.println("Error: Deposit amount is invalid.");
-            System.err.println("Customer: " + this.name);
-            System.err.println("Requested: " + amount);
-            JOptionPane.showMessageDialog(null, "Error: Deposit amount is invalid.\n"
-                    + "Customer: " + this.name + "\nRequested: " + amount);
+        {
+            // cannot have negative amounts
 
             return -1;  // error
         } else {
+
             this.balance = this.balance + amount;
+
             return this.balance;
         }
     }

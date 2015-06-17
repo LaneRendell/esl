@@ -182,8 +182,17 @@ public class BankDriver {
 
                             double result = custArray[index].deposit(depositAmt);
 
-                            if(result != -1){
+                            if(result == -1){
 
+                                // Cannot have negative amounts
+
+                                System.err.println("Error: Deposit amount is invalid.");
+                                System.err.println("Customer: " + this.name);
+                                System.err.println("Requested: " + depositAmt);
+                                JOptionPane.showMessageDialog(null, "Error: Deposit amount is invalid.\n"
+                                        + "Customer: " + this.name + "\nRequested: " + depositAmt);
+
+                            } else {
                                 JOptionPane.showMessageDialog(null, xnam + " balance after deposit: " +
                                                 fmt.format(custArray[index].getBalance()) + "\n"
                                                 + xnam + " balance after interest is added: " +
@@ -219,13 +228,33 @@ public class BankDriver {
 
                             double result = custArray[index].withdraw(withdrawAmt, FEE);
 
-                            // Build a string to show the user the withdrawal information.
-                            String successfulWithdraw = (xnam + " balance after withdrawal: " +
-                                    fmt.format(custArray[index].getBalance()) + "\n"
-                                    + xnam + " balance after interest is added: " +
-                                    fmt.format(custArray[index].addInterest()));
+                            if(result == -1)    // Error: negative amount
+                            {
+                                System.err.println("Error: Withdraw amount is invalid.");
+                                System.err.println("Customer: " + this.name);
+                                System.err.println("Requested: " + (withdrawAmt + FEE));
+                                JOptionPane.showMessageDialog(null, "Error: Withdraw amount is invalid.\n"
+                                        + "Customer: " + this.name + "\nRequested: " + withdrawAmt);
 
-                            JOptionPane.showMessageDialog(null, successfulWithdraw, BANK, JOptionPane.INFORMATION_MESSAGE);
+                            } else if (result == -2) {          // Error insufficent funds
+
+                                System.err.println("Error: Insufficient funds");
+                                System.err.println("Customer: " + this.name);
+                                System.err.println("Requested: " + (withdrawAmt + FEE));
+                                System.err.println("Available: " + this.balance);
+
+                                JOptionPane.showMessageDialog(null, "Error: Insufficient funds\n"
+                                        + "Customer: " + this.name + "\nRequested: " + (withdrawAmt + FEE) + "\nAvailable: " + this.balance);
+                            } else {
+                                // Build a string to show the user the withdrawal information.
+
+                                String successfulWithdraw = (xnam + " balance after withdrawal: " +
+                                        fmt.format(custArray[index].getBalance()) + "\n"
+                                        + xnam + " balance after interest is added: " +
+                                        fmt.format(custArray[index].addInterest()));
+
+                                JOptionPane.showMessageDialog(null, successfulWithdraw, BANK, JOptionPane.INFORMATION_MESSAGE);
+                            }
 
                         } else {
                             // Record wasn't found, alert the user.
